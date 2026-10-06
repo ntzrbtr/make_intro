@@ -21,6 +21,16 @@
         }
       }
     },
+    "About Make Intro": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Über „Make Intro“"
+          }
+        }
+      }
+    },
     "Background": {
       "localizations": {
         "de": {
@@ -497,6 +507,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Presets…"
+          }
+        }
+      }
+    },
+    "Released under the MIT License.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Veröffentlicht unter der MIT-Lizenz."
           }
         }
       }

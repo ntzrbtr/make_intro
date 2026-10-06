@@ -50,6 +50,9 @@ else
   echo "Warning: xcstringstool not found (requires Xcode) – building without translations." >&2
 fi
 
+# --- License (MIT: the notice must accompany every copy, including the app) ---
+cp "${ROOT_DIR}/LICENSE" "${RES}/LICENSE"
+
 # --- Neutral app icon ---
 ICONSET="${WORK_DIR}/AppIcon.iconset"
 mkdir -p "$ICONSET"
@@ -74,6 +77,7 @@ cat > "${APP}/Contents/Info.plist" <<'PLIST'
   <key>CFBundlePackageType</key><string>APPL</string>
   <key>CFBundleShortVersionString</key><string>1.0</string>
   <key>CFBundleVersion</key><string>1</string>
+  <key>NSHumanReadableCopyright</key><string>© 2026 Thomas Off</string>
   <key>CFBundleDevelopmentRegion</key><string>en</string>
   <key>CFBundleLocalizations</key>
   <array>

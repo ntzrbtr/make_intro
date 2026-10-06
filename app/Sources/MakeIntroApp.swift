@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 @main
@@ -12,6 +13,7 @@ struct MakeIntroApp: App {
         }
         .windowResizability(.contentMinSize)
         .commands {
+            CommandGroup(replacing: .appInfo) { AboutMenuItem() }
             CommandGroup(replacing: .newItem) {}
             CommandGroup(replacing: .appSettings) { PresetsMenuItem() }
         }
@@ -32,5 +34,34 @@ private struct PresetsMenuItem: View {
     var body: some View {
         Button("Presets…") { openWindow(id: PresetEditor.windowID) }
             .keyboardShortcut(",")
+    }
+}
+
+/// "About Make Intro" menu item: the standard About panel with license note and website link.
+/// The copyright line comes from NSHumanReadableCopyright in Info.plist.
+private struct AboutMenuItem: View {
+    private static let website = URL(string: "https://www.netzarbeiter.info")!
+
+    var body: some View {
+        Button("About Make Intro") {
+            NSApp.orderFrontStandardAboutPanel(options: [.credits: Self.credits])
+            NSApp.activate()
+        }
+    }
+
+    private static var credits: NSAttributedString {
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize),
+            .foregroundColor: NSColor.labelColor,  // dynamic, readable in light and dark mode
+            .paragraphStyle: paragraph,
+        ]
+        let credits = NSMutableAttributedString(
+            string: String(localized: "Released under the MIT License.") + "\n", attributes: attributes)
+        var link = attributes
+        link[.link] = website
+        credits.append(NSAttributedString(string: "www.netzarbeiter.info", attributes: link))
+        return credits
     }
 }

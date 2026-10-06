@@ -41,3 +41,7 @@ An app you build yourself starts without a Gatekeeper warning. If the built app 
 **Localization:** The source language in the code is English. Translations live in the String Catalog `app/Localizable.xcstrings`, which can also be edited in Xcode. `build.sh` syncs it with the strings in the code on every build, warns about missing translations and compiles it into the app. To add a language, add its code to `LANGUAGES` in `build.sh` and to `CFBundleLocalizations`, then add the translations to the catalog.
 
 **Icon:** The app icon is drawn at build time by `app/AppIcon.swift`.
+
+## License
+
+Released under the [MIT License](LICENSE). © 2026 Thomas Off – [www.netzarbeiter.info](https://www.netzarbeiter.info)
