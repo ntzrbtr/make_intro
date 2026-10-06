@@ -3,6 +3,7 @@ import SwiftUI
 
 @main
 struct MakeIntroApp: App {
+    @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
     @StateObject private var presets = PresetStore()
 
     var body: some Scene {
@@ -24,6 +25,21 @@ struct MakeIntroApp: App {
                 .frame(minWidth: 920, minHeight: 600)
         }
         .windowResizability(.contentMinSize)
+    }
+}
+
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    /// Asks before quitting while an intro is being created, since quitting cancels the export.
+    func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
+        guard ExportModel.shared.isRunning else { return .terminateNow }
+        let alert = NSAlert()
+        alert.messageText = String(localized: "An intro is still being created.")
+        alert.informativeText = String(localized: "Quitting cancels the export.")
+        alert.addButton(withTitle: String(localized: "Quit"))
+        alert.addButton(withTitle: String(localized: "Continue Export"))
+        guard alert.runModal() == .alertFirstButtonReturn else { return .terminateCancel }
+        ExportModel.shared.cancel()
+        return .terminateNow
     }
 }
 

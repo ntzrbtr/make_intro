@@ -31,6 +31,16 @@
         }
       }
     },
+    "An intro is still being created.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Es wird gerade ein Intro erstellt."
+          }
+        }
+      }
+    },
     "Background": {
       "localizations": {
         "de": {
@@ -117,6 +127,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Farbe"
+          }
+        }
+      }
+    },
+    "Continue Export": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Weiter exportieren"
           }
         }
       }
@@ -507,6 +527,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Presets…"
+          }
+        }
+      }
+    },
+    "Quit": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beenden"
+          }
+        }
+      }
+    },
+    "Quitting cancels the export.": {
+      "localizations": {
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Beim Beenden wird der Export abgebrochen."
           }
         }
       }

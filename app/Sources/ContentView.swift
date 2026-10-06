@@ -4,6 +4,9 @@ import UniformTypeIdentifiers
 
 @MainActor
 final class ExportModel: ObservableObject {
+    /// Shared so the app delegate can ask before quitting during an export.
+    static let shared = ExportModel()
+
     @Published var isRunning = false
     @Published var progress = 0.0
     @Published var errorMessage: String?
@@ -52,7 +55,8 @@ struct ContentView: View {
 
     @EnvironmentObject private var presets: PresetStore
     @Environment(\.openWindow) private var openWindow
-    @StateObject private var export = ExportModel()
+    @ObservedObject private var export = ExportModel.shared
+    @State private var window: NSWindow?
 
     @State private var title = ""
     @State private var input: URL?
@@ -136,6 +140,19 @@ struct ContentView: View {
         }
         .overlay {
             VideoDropTarget(isEnabled: !export.isRunning, isTargeted: $isDropTargeted, onDrop: setInput)
+        }
+        .background(WindowAccessor { window = $0 })
+        // Closing the main window quits the app (the presets window alone doesn't keep it running).
+        .onReceive(NotificationCenter.default.publisher(for: NSWindow.willCloseNotification)) { notification in
+            if let window, notification.object as? NSWindow === window { NSApp.terminate(nil) }
+        }
+        // While exporting, the window can't be closed (this also blocks ⌘W).
+        .onChange(of: export.isRunning) {
+            if export.isRunning {
+                window?.styleMask.remove(.closable)
+            } else {
+                window?.styleMask.insert(.closable)
+            }
         }
         .onChange(of: title) {
             // Hide the last export's message only once a new title is typed
@@ -238,6 +255,30 @@ struct ContentView: View {
             }
         } else if panel.runModal() == .OK, let url = panel.url {
             setInput(url)
+        }
+    }
+}
+
+/// Gives access to the NSWindow hosting a SwiftUI view.
+private struct WindowAccessor: NSViewRepresentable {
+    var onWindow: (NSWindow) -> Void
+
+    func makeNSView(context: Context) -> NSView { WindowView(onWindow: onWindow) }
+    func updateNSView(_ view: NSView, context: Context) {}
+
+    private final class WindowView: NSView {
+        let onWindow: (NSWindow) -> Void
+
+        init(onWindow: @escaping (NSWindow) -> Void) {
+            self.onWindow = onWindow
+            super.init(frame: .zero)
+        }
+
+        required init?(coder: NSCoder) { fatalError("not used") }
+
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            if let window { onWindow(window) }
         }
     }
 }
