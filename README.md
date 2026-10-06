@@ -18,9 +18,13 @@ A macOS app that adds a short intro sequence to a video (e.g. a screencast): a s
 
 Output: `<destination>/<video name>/<video name>.mp4` and `<video name>.png` (without the subfolder if disabled in the preset).
 
+## Installation
+
+Download the ZIP from the [latest release](https://github.com/ntzrbtr/make_intro/releases/latest), unzip it and move **Make Intro.app** to your Applications folder. The app is not notarized by Apple, so macOS blocks the first launch: open it once, then go to **System Settings → Privacy & Security** and click **Open Anyway** (or run `xattr -dr com.apple.quarantine "/Applications/Make Intro.app"`).
+
 ## Requirements
 
-- macOS 15 or later (Apple Silicon)
+- macOS 15 or later (Apple Silicon or Intel)
 - To build: Xcode (for the Swift compiler and `xcstringstool`). With the Command Line Tools alone, the app is built in English only.
 
 ## Building
@@ -30,7 +34,18 @@ Output: `<destination>/<video name>/<video name>.mp4` and `<video name>.png` (wi
 ./app/build.sh --install  # also copies it to ~/Applications
 ```
 
-An app you build yourself starts without a Gatekeeper warning. If the built app is passed on, it is only ad-hoc signed and macOS blocks the first launch. It can be allowed under **System Settings → Privacy & Security → “Open Anyway”** or with `xattr -dr com.apple.quarantine "/Applications/Make Intro.app"`.
+The app is built as a universal binary (Apple Silicon and Intel); set `ARCHS=arm64` for a faster single-architecture build. The version is taken from `$VERSION` or the latest `v*` tag, the build number is the number of commits. An app you build yourself starts without a Gatekeeper warning.
+
+## Releasing
+
+Releases are built by GitHub Actions (`.github/workflows/release.yml`):
+
+```bash
+git tag v1.2.0
+git push origin v1.2.0
+```
+
+The workflow builds the universal app, checks that all strings are translated and the String Catalog is committed, and publishes a GitHub release with `Make-Intro-1.2.0.zip`. Running the workflow manually (“Run workflow”) only builds the app and keeps the ZIP as a workflow artifact.
 
 ## Details
 
