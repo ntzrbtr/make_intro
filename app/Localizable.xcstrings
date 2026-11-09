@@ -611,12 +611,12 @@
         }
       }
     },
-    "Save poster as PNG": {
+    "Save poster as PNG and JPEG": {
       "localizations": {
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Poster als PNG speichern"
+            "value": "Poster als PNG und JPEG speichern"
           }
         }
       }

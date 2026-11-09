@@ -59,7 +59,7 @@ struct SettingsView: View {
                 Picker("Codec", selection: $settings.codec) {
                     ForEach(VideoCodec.allCases) { Text($0.label).tag($0) }
                 }
-                Toggle("Save poster as PNG", isOn: $settings.savePoster)
+                Toggle("Save poster as PNG and JPEG", isOn: $settings.savePoster)
                 Toggle("Create subfolder", isOn: $settings.createSubfolder)
             }
 

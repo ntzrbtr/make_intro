@@ -106,10 +106,19 @@ enum PosterRenderer {
     }
 
     static func writePNG(_ image: CGImage, to url: URL) throws {
-        guard let destination = CGImageDestinationCreateWithURL(url as CFURL, "public.png" as CFString, 1, nil) else {
+        try write(image, to: url, type: "public.png")
+    }
+
+    static func writeJPEG(_ image: CGImage, to url: URL, quality: Double = 0.9) throws {
+        try write(image, to: url, type: "public.jpeg",
+                  properties: [kCGImageDestinationLossyCompressionQuality: quality])
+    }
+
+    private static func write(_ image: CGImage, to url: URL, type: String, properties: [CFString: Any] = [:]) throws {
+        guard let destination = CGImageDestinationCreateWithURL(url as CFURL, type as CFString, 1, nil) else {
             throw IntroError.posterWriteFailed
         }
-        CGImageDestinationAddImage(destination, image, nil)
+        CGImageDestinationAddImage(destination, image, properties as CFDictionary)
         guard CGImageDestinationFinalize(destination) else { throw IntroError.posterWriteFailed }
     }
 

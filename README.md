@@ -16,7 +16,7 @@ A macOS app that adds a short intro sequence to a video (e.g. a screencast): a s
 - Videos without an audio track and rotated videos are supported.
 - Localized in English and German (follows the system language).
 
-Output: `<destination>/<video name>/<video name>.mp4` and `<video name>.png` (without the subfolder if disabled in the preset).
+Output: `<destination>/<video name>/<video name>.mp4` plus `<video name>.png` and `<video name>.jpg` (without the subfolder if disabled in the preset).
 
 ## Installation
 

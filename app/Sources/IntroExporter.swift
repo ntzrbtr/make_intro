@@ -50,12 +50,13 @@ enum IntroExporter {
             throw IntroError.posterRenderFailed
         }
 
-        // Output: <destination>/<name>/<name>.{png,mp4} (without the subfolder if disabled)
+        // Output: <destination>/<name>/<name>.{png,jpg,mp4} (without the subfolder if disabled)
         let name = input.deletingPathExtension().lastPathComponent
         let folder = settings.createSubfolder ? destination.appendingPathComponent(name, isDirectory: true) : destination
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         if settings.savePoster {
             try PosterRenderer.writePNG(poster, to: folder.appendingPathComponent("\(name).png"))
+            try PosterRenderer.writeJPEG(poster, to: folder.appendingPathComponent("\(name).jpg"))
         }
         let output = folder.appendingPathComponent("\(name).mp4")
 
